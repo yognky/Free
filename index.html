@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jasa Penambah Member WA - JPM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #25d366;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1eb858;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      background: #e8ffe9;
+      padding: 10px;
+      border-left: 5px solid #25d366;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Jasa Penambah Member WhatsApp (JPM)</h1>
+    <p>Tambah member grup WA secara cepat & aman!</p>
+  </header>
+
+  <div class="container">
+    <h2>Daftar Harga:</h2>
+    <ul>
+      <li>15 Member - Rp5.000</li>
+      <li>30 Member - Rp10.000</li>
+      <li>45 Member - Rp15.000</li>
+      <li>60 Member - Rp25.000</li>
+      <li>75 Member - Rp40.000</li>
+    </ul>
+
+    <div class="note">
+      💰 Transfer ke Dana: <strong>0851-3658-1676</strong><br>
+      📤 Kirim bukti transfer ke WhatsApp admin: 
+      <a href="https://wa.me/62895411891667" target="_blank">+62 895-4118-91667 (Klik di sini)</a>
+    </div>
+
+    <form>
+      <label for="nama">Nama Kamu:</label>
+      <input type="text" id="nama" required>
+
+      <label for="jumlah">Jumlah Member yang Dibeli:</label>
+      <select id="jumlah" required>
+        <option value="15">15 Member - Rp5.000</option>
+        <option value="30">30 Member - Rp10.000</option>
+        <option value="50">50 Member - Rp15.000</option>
+        <option value="100">100 Member - Rp25.000</option>
+        <option value="200">200 Member - Rp40.000</option>
+      </select>
+
+      <label for="bukti">Upload Bukti Transfer:</label>
+      <input type="file" id="bukti" accept="image/*" required>
+
+      <label for="linkGrup">Link Grup WhatsApp:</label>
+      <input type="url" id="linkGrup" placeholder="https://chat.whatsapp.com/..." required>
+
+      <button type="button" onclick="kirimWa()">Kirim Data ke Admin</button>
+    </form>
+  </div>
+
+  <script>
+    function kirimWa() {
+      const nama = document.getElementById("nama").value;
+      const jumlah = document.getElementById("jumlah").value;
+      const link = document.getElementById("linkGrup").value;
+
+      const pesan = `Halo Admin, saya ingin tambah member.\n\n` +
+        `👤 Nama: ${nama}\n` +
+        `📦 Paket: ${jumlah} Member\n` +
+        `🔗 Link Grup: ${link}\n` +
+        `📎 Bukti transfer sudah saya upload via form.`;
+
+      const encodedPesan = encodeURIComponent(pesan);
+      const waLink = `https://wa.me/62895411891667?text=${encodedPesan}`;
+      window.open(waLink, '_blank');
+    }
+  </script>
+
+</body>
+  </html>
