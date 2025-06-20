@@ -46,6 +46,10 @@
       border: 1px solid #ccc;
     }
 
+    textarea {
+      resize: vertical;
+    }
+
     button {
       margin-top: 20px;
       background: #25d366;
@@ -104,8 +108,8 @@
         <option value="15">15 Member - Rp5.000</option>
         <option value="30">30 Member - Rp10.000</option>
         <option value="45">45 Member - Rp15.000</option>
-        <option value="60">60 Member - Rp25.000</option>
-        <option value="75">75 Member - Rp40.000</option>
+        <option value="60">60 Member - Rp20.000</option>
+        <option value="75">75 Member - Rp25.000</option>
       </select>
 
       <label for="bukti">Upload Bukti Transfer:</label>
@@ -113,6 +117,9 @@
 
       <label for="linkGrup">Link Grup WhatsApp:</label>
       <input type="url" id="linkGrup" placeholder="https://chat.whatsapp.com/..." required>
+
+      <label for="instruksi">Instruksi Tambahan (Link Bukti TF masuk di sini):</label>
+      <textarea id="instruksi" placeholder="Akan terisi otomatis setelah upload bukti..." readonly></textarea>
 
       <button type="button" onclick="uploadDanKirim()">Kirim Data ke Admin</button>
     </form>
@@ -134,12 +141,15 @@
       const nama = document.getElementById("nama").value;
       const jumlah = document.getElementById("jumlah").value;
       const linkGrup = document.getElementById("linkGrup").value;
+      const instruksi = document.getElementById("instruksi");
       const file = document.getElementById("bukti").files[0];
 
       if (!file) {
-        alert("Mohon upload bukti transfer!");
+        alert("❌ Mohon upload bukti transfer terlebih dahulu.");
         return;
       }
+
+      instruksi.value = "⏳ Uploading bukti transfer...";
 
       const formData = new FormData();
       formData.append("image", await toBase64(file));
@@ -150,22 +160,25 @@
           method: "POST",
           body: formData,
         });
+
         const data = await res.json();
         const fotoLink = data.data.url;
+        instruksi.value = `Bukti Transfer: ${fotoLink}`;
 
         const pesan = `Halo Admin, saya ingin tambah member.\n\n` +
           `👤 Nama: ${nama}\n` +
           `📦 Paket: ${jumlah} Member\n` +
           `🔗 Link Grup: ${linkGrup}\n` +
-          `📎 Bukti Transfer: ${fotoLink}`;
+          `📎 ${instruksi.value}`;
 
         const encoded = encodeURIComponent(pesan);
         window.open(`https://wa.me/62895411891667?text=${encoded}`, '_blank');
-      } catch (e) {
-        alert("❌ Gagal upload bukti transfer. Coba lagi.");
+      } catch (err) {
+        instruksi.value = "❌ Gagal upload bukti transfer.";
+        alert("Gagal upload foto bukti. Coba lagi ya.");
       }
     }
   </script>
 
 </body>
-</html>
+  </html>
