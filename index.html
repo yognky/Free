@@ -95,7 +95,7 @@
       <a href="https://wa.me/62895411891667" target="_blank">+62 895-4118-91667 (Klik di sini)</a>
     </div>
 
-    <form>
+    <form id="form">
       <label for="nama">Nama Kamu:</label>
       <input type="text" id="nama" required>
 
@@ -114,27 +114,58 @@
       <label for="linkGrup">Link Grup WhatsApp:</label>
       <input type="url" id="linkGrup" placeholder="https://chat.whatsapp.com/..." required>
 
-      <button type="button" onclick="kirimWa()">Kirim Data ke Admin</button>
+      <button type="button" onclick="uploadDanKirim()">Kirim Data ke Admin</button>
     </form>
   </div>
 
   <script>
-    function kirimWa() {
+    const API_KEY = "949182c884d6e89cb3e0d032554ab95c";
+
+    async function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = (error) => reject(error);
+      });
+    }
+
+    async function uploadDanKirim() {
       const nama = document.getElementById("nama").value;
       const jumlah = document.getElementById("jumlah").value;
-      const link = document.getElementById("linkGrup").value;
+      const linkGrup = document.getElementById("linkGrup").value;
+      const file = document.getElementById("bukti").files[0];
 
-      const pesan = `Halo Admin, saya ingin tambah member.\n\n` +
-        `👤 Nama: ${nama}\n` +
-        `📦 Paket: ${jumlah} Member\n` +
-        `🔗 Link Grup: ${link}\n` +
-        `📎 Bukti transfer sudah saya upload via form.`;
+      if (!file) {
+        alert("Mohon upload bukti transfer!");
+        return;
+      }
 
-      const encodedPesan = encodeURIComponent(pesan);
-      const waLink = `https://wa.me/62895411891667?text=${encodedPesan}`;
-      window.open(waLink, '_blank');
+      const formData = new FormData();
+      formData.append("image", await toBase64(file));
+      formData.append("key", API_KEY);
+
+      try {
+        const res = await fetch("https://api.imgbb.com/1/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        const fotoLink = data.data.url;
+
+        const pesan = `Halo Admin, saya ingin tambah member.\n\n` +
+          `👤 Nama: ${nama}\n` +
+          `📦 Paket: ${jumlah} Member\n` +
+          `🔗 Link Grup: ${linkGrup}\n` +
+          `📎 Bukti Transfer: ${fotoLink}`;
+
+        const encoded = encodeURIComponent(pesan);
+        window.open(`https://wa.me/62895411891667?text=${encoded}`, '_blank');
+      } catch (e) {
+        alert("❌ Gagal upload bukti transfer. Coba lagi.");
+      }
     }
   </script>
 
 </body>
-  </html>
+</html>
