@@ -130,6 +130,33 @@
     a:hover {
       text-decoration: underline;
     }
+
+    .qris-wrapper {
+      position: relative;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .qris-image {
+      max-width: 250px;
+      width: 100%;
+      border-radius: 10px;
+      opacity: 0.15;
+      filter: grayscale(100%);
+    }
+
+    .qris-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 600;
+      color: #888;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -179,6 +206,12 @@
 
       <button type="button" onclick="uploadDanKirim()">Kirim Data ke Admin</button>
     </form>
+
+    <div class="qris-wrapper">
+      <img src="https://i.ibb.co/YZffDyJ/qris-placeholder.png" alt="QRIS" class="qris-image">
+      <div class="qris-text">Minta QRIS di admin</div>
+    </div>
+
   </div>
 
   <script>
@@ -237,4 +270,4 @@
   </script>
 
 </body>
-          </html>
+                            </html>
